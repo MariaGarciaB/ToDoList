@@ -1,5 +1,9 @@
 //lugar donde guardar los valores, las distintas cosas de la lista (varios valores >> array )
-const datos = [];
+//aca recupero localStorage.getItem 
+let datos = [];
+let aJson = JSON.parse(localStorage.getItem('tareas'))
+datos = aJson
+
 let id = 1;
 
 const input = document.querySelector('#inputAgregar');
@@ -36,9 +40,29 @@ function mostrarLista(){
         elimina.forEach( boton => {
             boton.addEventListener('click', eliminar);
         })
+        localStorage.setItem('tareas', JSON.stringify(datos));
 }
 
 
-const eliminar = (e) => {            
+const eliminar = (e) => {    
     console.log(e.target.value);
+    /*
+    datos.forEach(element =>{
+        if(parseInt(e.target.value) === element.llave){
+            console.log("Borro: " + element.tarea);
+            datos.splice(element.llave-1, 1);
+        }
+    })
+*/
+    let temp = parseInt(e.target.value);
+    const nuevoArreglo = datos.filter(elemento => 
+        temp !== elemento.llave
+    )
+    
+
+    console.log(nuevoArreglo);  
+    datos = nuevoArreglo;
+    mostrarLista()
+    localStorage.setItem('tareas', JSON.stringify(datos));
 }
+
