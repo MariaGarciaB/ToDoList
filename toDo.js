@@ -1,8 +1,9 @@
 //lugar donde guardar los valores, las distintas cosas de la lista (varios valores >> array )
 //aca recupero localStorage.getItem 
-let datos = [];
-let aJson = JSON.parse(localStorage.getItem('tareas'))
-datos = aJson
+
+let aJson = JSON.parse(localStorage.getItem('tareas'));
+//Verifica que Json sea un arreglo, en caso de ser null da un arreglo vacío
+let datos = Array.isArray(aJson) ? aJson : [];
 
 let id = 1;
 
@@ -27,6 +28,8 @@ function agregarTareas(){
     input.value = '';
     mostrarLista();
     id++;
+
+    localStorage.setItem('tareas', JSON.stringify(datos));
 }
 
 function mostrarLista(){
@@ -40,7 +43,6 @@ function mostrarLista(){
         elimina.forEach( boton => {
             boton.addEventListener('click', eliminar);
         })
-        localStorage.setItem('tareas', JSON.stringify(datos));
 }
 
 
@@ -66,3 +68,4 @@ const eliminar = (e) => {
     localStorage.setItem('tareas', JSON.stringify(datos));
 }
 
+mostrarLista();
